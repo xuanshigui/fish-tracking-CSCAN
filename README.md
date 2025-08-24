@@ -12,6 +12,8 @@
 .
 ├── model/                 # Training code for generating 2D trajectories
 ├── eval_result/          # Evaluation scripts and trajectory results
+|   ├── fish3d_front_joint_cgaivb/txt    # 2D trajectores front
+|   ├── fish3d_top_joint_cgaivb/txt      # 2D trajectores top
 │   ├── ZebraFish_05/     # Camera parameters and results for video 05
 │   ├── ZebraFish_06/     # Camera parameters and results for video 06
 │   ├── ZebraFish_07/     # Camera parameters and results for video 07
@@ -23,8 +25,8 @@
 
 - 2D multi-object tracking using a cross-scale content adaptive network
 - 3D trajectory reconstruction from multi-view 2D trajectories
-- Zebrafish activity quantification and behavioral analysis
-- Evaluation scripts for comparing predicted and ground truth trajectories
+- A hierarchical tracking method reconstructs 3D trajectories effectively
+- Fish activity in 3D is quantified using a multi-object tracking approach
 
 ## 🛠️ Installation
 
@@ -37,9 +39,12 @@
 ### Install Dependencies
 
 ```bash
-git clone https://github.com/your_username/your_repository.git
-cd your_repository
-pip install -r requirements.txt
+git clone https://github.com/xuanshigui/fish-tracking-CSCAN.git
+cd fish-tracking-CSCAN/model/DCNv2
+sh make.sh
+cd fish-tracking-CSCAN/model/to_install/ops
+sh make.sh
+pip install lap, pandas, scipy, Cython, pyyaml, opencv-python
 ```
 
 ## 📊 Usage
@@ -49,36 +54,31 @@ pip install -r requirements.txt
 Run the model to generate 2D trajectories:
 
 ```bash
-cd model
-python train.py  # for training
-python infer.py  # for inference
+cd model/training
+main_fish3d_joint.py  # for training
+cd model/tracking
+python fish_3dtest.py  # for inference
 ```
 
 The output 2D trajectories will be saved as TXT files named in the format `fish3d_front_joint_cgaivb.txt`.
 
-### 2. Evaluate 2D and 3D Trajectories
+### 2. Evaluate 3D Trajectories
 
 Move the generated trajectory files to the `eval_result` directory under the corresponding subfolder (e.g., `ZebraFish_05`). Then run:
 
 ```bash
-python evaluate.py --video ZebraFish_05
+cd evaluation/modules/evaluation
+python eval_3d.py
 ```
 
 This will generate:
 - `tracklets_2d_*.csv`: 2D trajectories for each view
 - `tracklets_3d.csv`: Reconstructed 3D trajectories
 
-### 3. Quantitative Evaluation
-
-To compare against ground truth annotations:
-
-```bash
-python MOT_evaluation.py
-```
 
 ## 📝 File Formats
 
-**Generated 2D trajectories**: TXT files with naming convention `fish3d_front_joint_cgaivb.txt` <br />
+**Generated 2D trajectories**: TXT files with naming convention `fish3d_front_joint_cgaivb/videoname.txt` <br />
 **Output 2D trajectories**: CSV files with naming convention `tracklets_2d_*.csv` <br />
 **Output 3D trajectories**: CSV file named `tracklets_3d.csv` <br />
 
@@ -88,9 +88,9 @@ If you use this code in your research, please cite our paper:
 
 ```bibtex
 @article{yourpaper,
-  title={Cross-scale Content Adaptive Network for 3D Multi-Object Tracking and Fish Activity Quantification},
-  author={Author1, Author2, ...},
+  title={Cross-scale content adaptive network for three-dimensional multi-object tracking and fish activity quantification},
+  author={Yiran Liu, Dingshuo Liu, Mingrui Kong, Beibei Li, Qingling Duan},
   journal={Journal Name},
-  year={2023}
+  year={2025}
 }
 ```
