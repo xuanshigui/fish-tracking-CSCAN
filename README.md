@@ -87,7 +87,7 @@ This will generate:
 If you use this code in your research, please cite our paper:
 
 ```bibtex
-@article{yourpaper,
+@article{
   title={Cross-scale content adaptive network for three-dimensional multi-object tracking and fish activity quantification},
   author={Yiran Liu, Dingshuo Liu, Mingrui Kong, Beibei Li, Qingling Duan},
   journal={Journal Name},
